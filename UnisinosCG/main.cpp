@@ -389,6 +389,7 @@ int main()
 	int acao = 3;
 	int sign = 1;
 	float previous = glfwGetTime();
+	float tx = 0, ty = 0;
 #pragma endregion
 
 	while (!glfwWindowShouldClose(g_window))
@@ -448,6 +449,7 @@ int main()
 #pragma endregion
 
 #pragma region Objeto
+
 		glBindBuffer(GL_ARRAY_BUFFER, VBOObjeto);
 		glUniform1f(glGetUniformLocation(shader_programme, "isObject"), true);
 		glActiveTexture(GL_TEXTURE0);
@@ -455,43 +457,63 @@ int main()
 		glUniform1i(glGetUniformLocation(shader_programme, "sprite"), 0);
 
 		glUseProgram(shader_programme);
+		glUniform1f(glGetUniformLocation(shader_programme, "tx"), 1.8 + tx);
+		glUniform1f(glGetUniformLocation(shader_programme, "ty"), 1.0 + ty);
 		glUniform1f(glGetUniformLocation(shader_programme, "offsetx"), offsetx);
 		glUniform1f(glGetUniformLocation(shader_programme, "offsety"), offsety);
 		glUniform1f(glGetUniformLocation(shader_programme, "layer_z"), 0.10);
 
-		if ((current_seconds - previous) > (0.16))
-		{
-			previous = current_seconds;
+		//if ((current_seconds - previous) > (0.16))
+		//{
+		//	previous = current_seconds;
 
-			// CALCULA TROCA DE LINHA
-			if (frameAtual == 3)
-			{
-				acao = (4 + (acao - 1)) % 4;
-				frameAtual = 0;
-			}
-			else
-			{
-				frameAtual = (frameAtual + 1) % 4;
-			}
+		//	// CALCULA TROCA DE LINHA
+		//	if (frameAtual == 3)
+		//	{
+		//		acao = (4 + (acao - 1)) % 4;
+		//		frameAtual = 0;
+		//	}
+		//	else
+		//	{
+		//		frameAtual = (frameAtual + 1) % 4;
+		//	}
 
-			offsetx = fw * (float)frameAtual;
-			offsety = fh * (float)acao;
-		}
+		//	offsetx = fw * (float)frameAtual;
+		//	offsety = fh * (float)acao;
+		//}
+
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 #pragma endregion
 
 #pragma region Eventos
 		glfwPollEvents();
-		if (GLFW_PRESS == glfwGetKey(g_window, GLFW_KEY_ESCAPE))
+
+		if ((current_seconds - previous) > (0.13)) 
 		{
-			glfwSetWindowShouldClose(g_window, 1);
+			previous = current_seconds;
+
+			if (GLFW_PRESS == glfwGetKey(g_window, GLFW_KEY_ESCAPE))
+			{
+				glfwSetWindowShouldClose(g_window, 1);
+			}
+			if (GLFW_PRESS == glfwGetKey(g_window, GLFW_KEY_UP))
+			{
+				ty += 0.1;
+			}
+			if (GLFW_PRESS == glfwGetKey(g_window, GLFW_KEY_DOWN))
+			{
+				ty -= 0.1;
+			}
+			if (GLFW_PRESS == glfwGetKey(g_window, GLFW_KEY_LEFT))
+			{
+				tx -= 0.2;
+			}
+			if (GLFW_PRESS == glfwGetKey(g_window, GLFW_KEY_RIGHT))
+			{
+				tx += 0.2;
+			}
 		}
-		if (GLFW_PRESS == glfwGetKey(g_window, GLFW_KEY_UP))
-		{
-		}
-		if (GLFW_PRESS == glfwGetKey(g_window, GLFW_KEY_DOWN))
-		{
-		}
+
 		double mx, my;
 		glfwGetCursorPos(g_window, &mx, &my);
 
