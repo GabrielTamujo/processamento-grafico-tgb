@@ -123,7 +123,7 @@ void moveObject(int c, int r, const int direction) {
 	}
 
 	if (c == 9) {
-		cout << "Muito bem! Sully esta muito feliz por ter chegado ao outro lado do mapa! Pressione espa�o se quiser reiniciar a partida" << endl;
+		cout << "Muito bem! Sully esta muito feliz por ter chegado ao outro lado do mapa! Pressione espaco se quiser reiniciar a partida" << endl;
 		jogoFinalizado = true;
 		cx = -1;
 		cy = -1;
