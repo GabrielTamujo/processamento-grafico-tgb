@@ -389,7 +389,9 @@ int main()
 	int acao = 3;
 	int sign = 1;
 	float previous = glfwGetTime();
+	float previousObject = glfwGetTime();
 	float tx = 0, ty = 0;
+	float isTravelling = false;
 #pragma endregion
 
 	while (!glfwWindowShouldClose(g_window))
@@ -463,32 +465,14 @@ int main()
 		glUniform1f(glGetUniformLocation(shader_programme, "offsety"), offsety);
 		glUniform1f(glGetUniformLocation(shader_programme, "layer_z"), 0.10);
 
-		//if ((current_seconds - previous) > (0.16))
-		//{
-		//	previous = current_seconds;
-
-		//	// CALCULA TROCA DE LINHA
-		//	if (frameAtual == 3)
-		//	{
-		//		acao = (4 + (acao - 1)) % 4;
-		//		frameAtual = 0;
-		//	}
-		//	else
-		//	{
-		//		frameAtual = (frameAtual + 1) % 4;
-		//	}
-
-		//	offsetx = fw * (float)frameAtual;
-		//	offsety = fh * (float)acao;
-		//}
-
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
 #pragma endregion
 
 #pragma region Eventos
 		glfwPollEvents();
 
-		if ((current_seconds - previous) > (0.13)) 
+		if ((current_seconds - previous) > (0.15)) 
 		{
 			previous = current_seconds;
 
@@ -498,19 +482,35 @@ int main()
 			}
 			if (GLFW_PRESS == glfwGetKey(g_window, GLFW_KEY_UP))
 			{
-				ty += 0.1;
+				ty += 0.01;
+				acao = (4 + (0)) % 4;
+				frameAtual = (frameAtual + 1) % 4;
+				offsetx = fw * (float)frameAtual;
+				offsety = fh * (float)acao;
 			}
 			if (GLFW_PRESS == glfwGetKey(g_window, GLFW_KEY_DOWN))
 			{
 				ty -= 0.1;
+				acao = (4 + (3)) % 4;
+				frameAtual = (frameAtual + 1) % 4;
+				offsetx = fw * (float)frameAtual;
+				offsety = fh * (float)acao;
 			}
 			if (GLFW_PRESS == glfwGetKey(g_window, GLFW_KEY_LEFT))
 			{
 				tx -= 0.2;
+				acao = (4 + (2)) % 4;
+				frameAtual = (frameAtual + 1) % 4;
+				offsetx = fw * (float)frameAtual;
+				offsety = fh * (float)acao;
 			}
 			if (GLFW_PRESS == glfwGetKey(g_window, GLFW_KEY_RIGHT))
 			{
 				tx += 0.2;
+				acao = (4 + (1)) % 4;
+				frameAtual = (frameAtual + 1) % 4;
+				offsetx = fw * (float)frameAtual;
+				offsety = fh * (float)acao;
 			}
 		}
 
